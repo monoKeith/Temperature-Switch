@@ -2,7 +2,7 @@
 
 A temperature controlled switch implemented in Micropython.
 
-Can be used for percise temperature control in areas like [sous-vide](https://en.wikipedia.org/wiki/Sous_vide).
+Can be used for precise temperature control in areas like [sous-vide](https://en.wikipedia.org/wiki/Sous_vide).
 
 This software was tested on Raspberry Pi Pico. Attached with:
 - I2C 128*64 mono-color display

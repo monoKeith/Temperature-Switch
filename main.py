@@ -1,21 +1,44 @@
-import machine, onewire, ds18x20, time
-import display
-
-# Setup temp sensor
-ds_pin = machine.Pin(16)
-ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
-
-roms = ds_sensor.scan()
-print('Found a ds18x20 device')
- 
+import time
+from display import Display
+from state import State
+from sensor import TempSensor
+from userInput import UserInput
 
 # Init
-d = display.Display()
+state = State()
+display = Display(state)
+temp_sensor = TempSensor(state)
+user_input = UserInput(state)
+start_time = time.time()
 
-while True:
-    d.run()
-    ds_sensor.convert_temp()
-    for rom in roms:
-        temp = ds_sensor.read_temp(rom)
-        d.set_cur_temp(temp)
+# Temperature range allowance (+- 0.5C)
+TEMP_DIFF = 0.5
 
+def uptime():
+    return time.time() - start_time
+
+def update_socket():
+    if not state.get_sensor_init():
+        # Temp sensor error, turn off socket
+        state.set_socket_on(False)
+        return
+    actual_temp = state.get_actual_temp()
+    target_temp = state.get_target_temp()
+    if state.get_socket_on():
+        if actual_temp >= (target_temp + TEMP_DIFF):
+            # Turn off
+            state.set_socket_on(False)
+    else:
+        if actual_temp <= (target_temp - TEMP_DIFF):
+            # Turn on
+            state.set_socket_on(True)
+
+def controller_thread():
+    while True:
+        display.run()
+        user_input.run()
+        temp_sensor.run()
+        update_socket()
+        state.set_uptime(uptime())
+
+controller_thread()
