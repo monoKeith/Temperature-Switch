@@ -26,3 +26,7 @@ Status:
 - Green: temperature above target (heating off)
 - Red: temperature below target (heating on)
 - Yellow: updating display content
+
+Libraries:
+- [micropython-oled](https://pypi.org/project/micropython-oled/)
+- [micropython-rotary](https://github.com/miketeachman/micropython-rotary)
