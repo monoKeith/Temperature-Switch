@@ -4,6 +4,10 @@ A temperature controlled switch implemented in Micropython.
 
 Can be used for precise temperature control in areas like [sous-vide](https://en.wikipedia.org/wiki/Sous_vide).
 
+[STL files](https://www.thingiverse.com/thing:4939284)
+
+[Pictures](https://monokeith.top/?p=573)
+
 This software was tested on Raspberry Pi Pico. Attached with:
 - DS18B20 temperature sensor
 - I2C 128*64 mono-color display
